@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react' // useEffect와 useRef를 import 합니다.
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -10,7 +10,12 @@ function PDFViewer() {
   const [file, setFile] = useState(null)
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
+  
+  // 🟢 스크롤 이벤트 처리를 위한 ref 추가
+  const pdfContentRef = useRef(null)
+  const isScrolling = useRef(false) // 스크롤 중복 방지 플래그
 
+  // --- 기존 함수들 ---
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0]
     if (selectedFile && selectedFile.type === 'application/pdf') {
@@ -33,24 +38,37 @@ function PDFViewer() {
     setPageNumber((prev) => Math.min(prev + 1, numPages))
   }
 
-  // 스크롤로 페이지 전환
+  // 🟢 스크롤 이벤트 핸들러 useEffect 추가
   useEffect(() => {
-    const handleWheel = (e) => {
-      if (e.deltaY > 0) {
-        // 아래로 스크롤 - 다음 페이지
-        goToNextPage()
-      } else if (e.deltaY < 0) {
-        // 위로 스크롤 - 이전 페이지
+    const handleWheel = (event) => {
+      if (!file || isScrolling.current) return
+
+      // 스크롤 중복 실행 방지
+      isScrolling.current = true
+      
+      if (event.deltaY < 0) { // 위로 스크롤
         goToPrevPage()
+      } else { // 아래로 스크롤
+        goToNextPage()
       }
+
+      // 0.5초 후에 다시 스크롤 가능하도록 설정
+      setTimeout(() => {
+        isScrolling.current = false
+      }, 500)
     }
 
-    const pdfContent = document.querySelector('.pdf-content')
-    if (pdfContent && file) {
-      pdfContent.addEventListener('wheel', handleWheel, { passive: false })
-      return () => pdfContent.removeEventListener('wheel', handleWheel)
+    const pdfElement = pdfContentRef.current
+    if (pdfElement) {
+      pdfElement.addEventListener('wheel', handleWheel)
     }
-  }, [file, numPages, pageNumber])
+
+    return () => {
+      if (pdfElement) {
+        pdfElement.removeEventListener('wheel', handleWheel)
+      }
+    }
+  }, [file, numPages, pageNumber]) // 의존성 배열에 상태 추가
 
   return (
     <div className="pdf-viewer">
@@ -68,7 +86,8 @@ function PDFViewer() {
         </label>
       </div>
       
-      <div className="pdf-content">
+      {/* 🟢 ref를 div에 연결합니다 */}
+      <div className="pdf-content" ref={pdfContentRef}>
         {file ? (
           <>
             <Document
@@ -109,4 +128,3 @@ function PDFViewer() {
 }
 
 export default PDFViewer
-
