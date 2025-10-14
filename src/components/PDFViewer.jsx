@@ -71,7 +71,7 @@ function PDFViewer() {
             style={{ display: 'none' }}
           />
           <label htmlFor="pdf-upload" className="upload-btn">
-            PDF 업로드
+            {file ? 'PDF 변경' : 'PDF 업로드'}
           </label>
         </div>
       </div>
