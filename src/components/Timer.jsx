@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './Timer.css'
 
 function Timer() {
-  const [totalMinutes, setTotalMinutes] = useState(24)
+  const [totalMinutes, setTotalMinutes] = useState(100)
   const [seconds, setSeconds] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
 
