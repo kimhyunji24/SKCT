@@ -178,11 +178,22 @@
   resize: vertical;
   margin-bottom: 15px;
   line-height: 1.6;
+  background-color: white;
+  color: #333;
+  cursor: text;
+  display: block;
 }
 
 .answer-input:focus {
   outline: none;
   border-color: #4a5568;
+  box-shadow: 0 0 0 2px rgba(74, 85, 104, 0.1);
+}
+
+.answer-input:disabled {
+  background-color: #f7fafc;
+  color: #a0aec0;
+  cursor: not-allowed;
 }
 
 .grading-buttons {

@@ -73,6 +73,13 @@ function OMRSheet() {
     setScore(null)
   }
 
+  const handleAnswerInput = (e) => {
+    const value = e.target.value
+    // 숫자, 쉼표, 공백만 허용
+    const filteredValue = value.replace(/[^0-9,\s]/g, '')
+    setCorrectAnswers(filteredValue)
+  }
+
   return (
     <div className="omr-sheet">
       <div className="omr-header">
@@ -99,10 +106,25 @@ function OMRSheet() {
             </p>
             <textarea
               value={correctAnswers}
-              onChange={(e) => setCorrectAnswers(e.target.value)}
+              onChange={handleAnswerInput}
               placeholder="1,2,3,4,5,1,2,3,4,5,..."
               className="answer-input"
               rows="6"
+              autoComplete="off"
+              spellCheck="false"
+              inputMode="numeric"
+              style={{ 
+                backgroundColor: 'white',
+                color: '#333',
+                border: '2px solid #ddd',
+                padding: '12px',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontFamily: 'Courier New, monospace',
+                width: '100%',
+                resize: 'vertical',
+                cursor: 'text'
+              }}
             />
             <div className="grading-buttons">
               <button onClick={handleGrade} className="submit-grade-btn">
