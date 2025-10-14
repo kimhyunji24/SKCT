@@ -6,6 +6,7 @@ import OMRSheet from './components/OMRSheet'
 import PDFViewer from './components/PDFViewer'
 import Calculator from './components/Calculator'
 import NotePad from './components/NotePad'
+import Timer from './components/Timer'
 import './App.css'
 
 function App() {
