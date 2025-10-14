@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react' // useEffect 추가
 import './OMRSheet.css'
 
-function OMRSheet() {
-  const [answers, setAnswers] = useState({}) // { 1: 1, 2: 3, ... }
+// 🟢 props로 onGradingToggle 함수를 받도록 수정
+function OMRSheet({ onGradingToggle }) {
+  const [answers, setAnswers] = useState({})
   const [correctAnswers, setCorrectAnswers] = useState('')
   const [score, setScore] = useState(null)
   const [showGrading, setShowGrading] = useState(false)
+
+  // 🟢 showGrading 상태가 바뀔 때마다 부모에게 알리는 useEffect 추가
+  useEffect(() => {
+    if (onGradingToggle) {
+      onGradingToggle(showGrading);
+    }
+  }, [showGrading, onGradingToggle]);
 
   const totalQuestions = 100
   const choices = [1, 2, 3, 4, 5]
@@ -22,7 +30,6 @@ function OMRSheet() {
     setScore(null)
   }
 
-  // --- (다른 함수들은 그대로 유지) ---
   const handleGrade = () => {
     if (!correctAnswers.trim()) {
       alert('정답을 입력해주세요!')
@@ -93,7 +100,7 @@ function OMRSheet() {
           </button>
         </div>
       </div>
-
+      
       {showGrading ? (
         <div className="grading-section">
           <div className="grading-input">
