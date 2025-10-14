@@ -252,30 +252,37 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
+}/* ... 다른 스타일 ... */
 
+/* 🟢 .score-item의 display 속성을 flex로 변경하고 정렬 속성을 추가합니다. */
 .score-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* 양쪽 끝으로 요소를 밀어냅니다. */
+  align-items: center; /* 세로 중앙 정렬 */
   padding: 12px;
   background-color: #f8f9fa;
   border-radius: 6px;
 }
 
+/* 🟢 .score-item.large 에도 동일한 flex 속성을 적용합니다. */
 .score-item.large {
   background-color: #2d3748;
   color: white;
   padding: 15px;
+  display: flex; /* 추가 */
+  justify-content: space-between; /* 추가 */
+  align-items: center; /* 추가 */
 }
 
+/* 🟢 라벨과 값의 폰트 크기를 rem 단위로 미세 조정합니다. */
 .score-label {
-  font-size: 14px;
+  font-size: 0.9rem; /* 기존 14px에서 약간 작게 */
   font-weight: 500;
+  white-space: nowrap; /* '총 문항:' 같은 라벨 자체가 줄바꿈되는 것을 방지 */
 }
 
 .score-value {
-  font-size: 18px;
+  font-size: 1.1rem; /* 기존 18px에서 약간 작게 */
   font-weight: bold;
 }
 
