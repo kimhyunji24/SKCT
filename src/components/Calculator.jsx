@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Calculator.css'
 
 function Calculator() {
@@ -6,6 +6,53 @@ function Calculator() {
   const [prevValue, setPrevValue] = useState(null)
   const [operation, setOperation] = useState(null)
   const [newNumber, setNewNumber] = useState(true)
+
+  // 키보드 입력 처리
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      const key = event.key
+      
+      // 숫자 키
+      if (key >= '0' && key <= '9') {
+        handleNumber(parseInt(key))
+      }
+      // 연산자 키
+      else if (key === '+') {
+        handleOperator('+')
+      }
+      else if (key === '-') {
+        handleOperator('-')
+      }
+      else if (key === '*') {
+        handleOperator('×')
+      }
+      else if (key === '/') {
+        event.preventDefault() // 브라우저 기본 동작 방지
+        handleOperator('÷')
+      }
+      // 소수점
+      else if (key === '.') {
+        handleDecimal()
+      }
+      // 엔터키 또는 등호
+      else if (key === 'Enter' || key === '=') {
+        event.preventDefault()
+        handleEquals()
+      }
+      // 백스페이스
+      else if (key === 'Backspace') {
+        event.preventDefault()
+        handleBackspace()
+      }
+      // ESC 또는 C
+      else if (key === 'Escape' || key.toLowerCase() === 'c') {
+        handleClear()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [display, prevValue, operation, newNumber])
 
   const handleNumber = (num) => {
     if (newNumber) {
@@ -78,6 +125,15 @@ function Calculator() {
 
   const handleSign = () => {
     setDisplay(String(parseFloat(display) * -1))
+  }
+
+  const handleBackspace = () => {
+    if (display.length > 1) {
+      setDisplay(display.slice(0, -1))
+    } else {
+      setDisplay('0')
+      setNewNumber(true)
+    }
   }
 
   return (

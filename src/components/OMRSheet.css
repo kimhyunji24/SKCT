@@ -24,7 +24,7 @@
 
 .grade-btn {
   padding: 8px 16px;
-  background-color: #28a745;
+  background-color: #4a5568;
   color: white;
   border: none;
   border-radius: 5px;
@@ -35,12 +35,12 @@
 }
 
 .grade-btn:hover {
-  background-color: #218838;
+  background-color: #2d3748;
 }
 
 .clear-all-btn {
   padding: 8px 16px;
-  background-color: #dc3545;
+  background-color: #718096;
   color: white;
   border: none;
   border-radius: 5px;
@@ -51,7 +51,7 @@
 }
 
 .clear-all-btn:hover {
-  background-color: #c82333;
+  background-color: #4a5568;
 }
 
 .omr-content {
@@ -109,14 +109,14 @@
 }
 
 .choice-btn:hover {
-  border-color: #007bff;
-  background-color: #f0f8ff;
+  border-color: #4a5568;
+  background-color: #edf2f7;
 }
 
 .choice-btn.selected {
-  background-color: #007bff;
+  background-color: #2d3748;
   color: white;
-  border-color: #007bff;
+  border-color: #2d3748;
   font-weight: bold;
 }
 
@@ -181,7 +181,7 @@
 
 .answer-input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #4a5568;
 }
 
 .grading-buttons {
@@ -192,7 +192,7 @@
 .submit-grade-btn {
   flex: 1;
   padding: 12px 20px;
-  background-color: #007bff;
+  background-color: #4a5568;
   color: white;
   border: none;
   border-radius: 6px;
@@ -203,7 +203,7 @@
 }
 
 .submit-grade-btn:hover {
-  background-color: #0056b3;
+  background-color: #2d3748;
 }
 
 .clear-grade-btn {
@@ -252,7 +252,7 @@
 }
 
 .score-item.large {
-  background-color: #007bff;
+  background-color: #2d3748;
   color: white;
   padding: 15px;
 }
@@ -268,11 +268,11 @@
 }
 
 .score-value.correct {
-  color: #28a745;
+  color: #4a5568;
 }
 
 .score-value.incorrect {
-  color: #dc3545;
+  color: #718096;
 }
 
 .score-value.percentage {

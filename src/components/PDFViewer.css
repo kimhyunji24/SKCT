@@ -21,7 +21,7 @@
 
 .upload-btn {
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #4a5568;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -30,7 +30,7 @@
 }
 
 .upload-btn:hover {
-  background-color: #0056b3;
+  background-color: #2d3748;
 }
 
 .pdf-content {
@@ -62,7 +62,7 @@
 
 .pdf-controls button {
   padding: 8px 16px;
-  background-color: #28a745;
+  background-color: #4a5568;
   color: white;
   border: none;
   border-radius: 5px;
@@ -72,7 +72,7 @@
 }
 
 .pdf-controls button:hover:not(:disabled) {
-  background-color: #218838;
+  background-color: #2d3748;
 }
 
 .pdf-controls button:disabled {

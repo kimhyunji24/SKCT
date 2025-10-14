@@ -51,7 +51,7 @@
   align-items: center;
   padding: 20px 25px;
   border-bottom: 2px solid #eee;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   border-radius: 12px 12px 0 0;
   color: white;
 }
@@ -92,7 +92,7 @@
   padding: 20px;
   background-color: #f8f9fa;
   border-radius: 10px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #4a5568;
 }
 
 .section-icon {
@@ -133,17 +133,17 @@
 }
 
 .tip {
-  background-color: #fff9e6;
+  background-color: #f7fafc;
   padding: 10px 15px;
   border-radius: 6px;
-  border-left: 3px solid #ffc107;
+  border-left: 3px solid #718096;
   font-size: 13px;
-  color: #856404;
+  color: #4a5568;
   margin-top: 10px;
 }
 
 .tutorial-footer-info {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   color: white;
   padding: 15px 20px;
   border-radius: 8px;
@@ -188,13 +188,13 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
   color: white;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(45, 55, 72, 0.4);
 }
 
 /* 스크롤바 스타일링 */
