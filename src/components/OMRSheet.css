@@ -86,13 +86,15 @@
 }
 
 .choices {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5개의 동일한 너비의 열을 생성 */
+  
   gap: 6px;
   flex: 1;
 }
 
 .choice-btn {
-  flex: 1;
+
   padding: 10px;
   border: 2px solid #ddd;
   background-color: white;
@@ -105,9 +107,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 35px;
 }
-
 .choice-btn:hover {
   border-color: #4a5568;
   background-color: #edf2f7;
