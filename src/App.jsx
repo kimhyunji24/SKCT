@@ -52,6 +52,9 @@ function App() {
           <PDFViewer />
         </div>
         <div className="right-panel">
+          <div className="timer-section">
+            <Timer />
+          </div>
           <div className="notepad-section">
             <NotePad />
           </div>
