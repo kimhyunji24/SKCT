@@ -79,3 +79,46 @@
   border-radius: 50px;
 }
 
+/* 반응형 */
+@media (max-width: 768px) {
+  .calc-header {
+    font-size: 14px;
+  }
+
+  .calc-display {
+    font-size: 28px;
+    padding: 12px;
+    min-height: 45px;
+  }
+
+  .calc-buttons button {
+    padding: 15px;
+    font-size: 18px;
+  }
+
+  .calc-buttons {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calc-header {
+    font-size: 13px;
+  }
+
+  .calc-display {
+    font-size: 24px;
+    padding: 10px;
+    min-height: 40px;
+  }
+
+  .calc-buttons button {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .calc-buttons {
+    gap: 5px;
+  }
+}
+

@@ -122,3 +122,87 @@
   background-color: white;
 }
 
+/* 반응형 */
+@media (max-width: 768px) {
+  .notepad-header {
+    padding: 10px 12px;
+  }
+
+  .mode-toggle button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .notepad-toolbar,
+  .drawing-toolbar {
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  .tool-group {
+    font-size: 12px;
+  }
+
+  .clear-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .notepad-textarea {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .color-picker {
+    width: 35px;
+    height: 25px;
+  }
+
+  .line-width-slider {
+    width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notepad-header {
+    padding: 8px 10px;
+  }
+
+  .mode-toggle button {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .notepad-toolbar,
+  .drawing-toolbar {
+    padding: 6px 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tool-group {
+    font-size: 11px;
+  }
+
+  .clear-btn {
+    font-size: 11px;
+    padding: 4px 8px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .notepad-textarea {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .color-picker {
+    width: 30px;
+    height: 25px;
+  }
+
+  .line-width-slider {
+    width: 50px;
+  }
+}
+

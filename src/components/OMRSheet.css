@@ -307,3 +307,70 @@
   background: #555;
 }
 
+/* 반응형 */
+@media (max-width: 768px) {
+  .omr-header h2 {
+    font-size: 16px;
+  }
+
+  .omr-actions {
+    flex-wrap: wrap;
+  }
+
+  .grade-btn,
+  .clear-all-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .question-number {
+    min-width: 30px;
+    font-size: 12px;
+  }
+
+  .choice-btn {
+    font-size: 12px;
+    min-width: 30px;
+    padding: 8px;
+  }
+
+  .omr-grid {
+    gap: 6px;
+  }
+
+  .omr-row {
+    gap: 8px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .omr-header {
+    padding: 12px 15px;
+  }
+
+  .omr-header h2 {
+    font-size: 14px;
+  }
+
+  .question-number {
+    min-width: 25px;
+    font-size: 11px;
+  }
+
+  .choice-btn {
+    font-size: 11px;
+    min-width: 25px;
+    padding: 6px;
+  }
+
+  .omr-grid {
+    gap: 5px;
+  }
+
+  .omr-row {
+    gap: 6px;
+    padding: 5px 8px;
+  }
+}
+
