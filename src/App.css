@@ -110,18 +110,10 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 480px;
-  min-width: 320px;
+  max-width: 400px;
+  min-width: 300px;
 }
 
-.timer-section {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px;
-  height: 100px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
 
 .calculator-section {
   background-color: white;
@@ -130,6 +122,7 @@
   padding: 16px;
   flex: 0 0 auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
 }
 
 .notepad-section {
@@ -141,6 +134,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
 }
 
 /* 반응형 디자인 */
@@ -158,7 +152,7 @@
 
   .right-panel {
     min-width: 280px;
-    max-width: 400px;
+    max-width: 350px;
   }
 
   .help-btn {
@@ -206,19 +200,14 @@
     height: auto;
   }
 
-  .timer-section {
-    flex: 1;
-    height: auto;
-    min-height: 80px;
-  }
-
   .calculator-section {
     flex: 1;
+    min-height: 250px;
   }
 
   .notepad-section {
     flex: 1;
-    min-height: 200px;
+    min-height: 250px;
   }
 
   .help-btn {
@@ -247,7 +236,6 @@
     border-radius: 12px;
   }
 
-  .timer-section,
   .calculator-section,
   .notepad-section {
     border-radius: 12px;

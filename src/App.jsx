@@ -33,7 +33,7 @@ function App() {
           onClick={() => setShowOMR(!showOMR)}
           title={showOMR ? 'OMR 숨기기' : 'OMR 보이기'}
         >
-          {showOMR ? '◀ OMR 숨기기' : 'OMR 보이기 ▶'}
+          {showOMR ? '▼ OMR 숨기기' : 'OMR 보이기 ▲'}
         </button>
         
         {showOMR && (
@@ -46,9 +46,6 @@ function App() {
           <PDFViewer />
         </div>
         <div className="right-panel">
-          <div className="timer-section">
-            <Timer totalMinutes={24} />
-          </div>
           <div className="calculator-section">
             <Calculator />
           </div>
