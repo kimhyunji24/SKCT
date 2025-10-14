@@ -45,7 +45,6 @@ function Timer() {
         >
           <option value={5}>5분</option>
           <option value={15}>15분</option>
-          <option value={24}>24분</option>
           <option value={100}>100분</option>
         </select>
       </div>

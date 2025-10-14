@@ -48,6 +48,18 @@ function PDFViewer() {
     <div className="pdf-viewer">
       <div className="pdf-header">
         <h2>문제</h2>
+
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={onFileChange}
+          id="pdf-upload"
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="pdf-upload" className="upload-btn">
+          PDF 업로드
+        </label>
+        
         <div className="pdf-controls">
           {file && (
             <div className="zoom-controls">
