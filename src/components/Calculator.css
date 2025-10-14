@@ -66,16 +66,13 @@
 }
 
 .btn-operator {
-  /* 🟢 배경색을 눈에 띄는 주황색 계열로 변경 */
-  background-color: #f59e0b; 
-  color: white;
-  border-color: #f59e0b;
+  background-color: white;
+  color: #2d3748;
+  border-color: #e2e8f0;
 }
-
 .btn-operator:hover {
-  /* 🟢 호버 시 조금 더 어두운 색으로 변경 */
-  background-color: #d97706;
-  border-color: #d97706;
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
 }
 
 .btn-function {

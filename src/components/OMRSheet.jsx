@@ -11,10 +11,20 @@ function OMRSheet() {
   const choices = [1, 2, 3, 4, 5]
 
   const handleSelect = (questionNum, choice) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questionNum]: choice
-    }))
+    setAnswers(prev => {
+      const currentAnswer = prev[questionNum]
+      // 이미 선택된 답안을 다시 클릭하면 취소
+      if (currentAnswer === choice) {
+        const newAnswers = { ...prev }
+        delete newAnswers[questionNum]
+        return newAnswers
+      }
+      // 새로운 답안 선택
+      return {
+        ...prev,
+        [questionNum]: choice
+      }
+    })
     setScore(null) // 답안 변경 시 점수 초기화
   }
 

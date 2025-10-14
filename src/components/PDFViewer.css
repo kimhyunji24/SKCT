@@ -160,3 +160,23 @@
   }
 }
 
+/* 다른 스타일은 그대로 두고, 아래 코드 블록만 파일 하단에 추가합니다. */
+
+.pdf-page {
+  margin-bottom: 20px; /* 각 페이지 사이에 여백을 줍니다. */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 페이지 구분을 위한 그림자 효과 */
+  border-radius: 4px;
+}
+
+.pdf-document {
+  display: flex;
+  /* 🟢 여러 페이지를 세로로 정렬하기 위해 flex-direction 추가 */
+  flex-direction: column; 
+  align-items: center; /* 페이지를 가운데 정렬 */
+  margin-bottom: 0; /* 기존 마진 제거 */
+}
+
+/* 🟢 페이지 이동 버튼이 사라졌으므로 관련 스타일 제거 */
+.pdf-controls {
+  display: none;
+}

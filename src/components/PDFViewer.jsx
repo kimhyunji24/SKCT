@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react' // useEffect와 useRef를 import 합니다.
+import React, { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -9,18 +9,13 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 function PDFViewer() {
   const [file, setFile] = useState(null)
   const [numPages, setNumPages] = useState(null)
-  const [pageNumber, setPageNumber] = useState(1)
   
-  // 🟢 스크롤 이벤트 처리를 위한 ref 추가
-  const pdfContentRef = useRef(null)
-  const isScrolling = useRef(false) // 스크롤 중복 방지 플래그
+  // 🟢 pageNumber와 페이지 이동 함수들 제거
 
-  // --- 기존 함수들 ---
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0]
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile)
-      setPageNumber(1)
     } else {
       alert('PDF 파일만 업로드 가능합니다.')
     }
@@ -29,46 +24,6 @@ function PDFViewer() {
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
   }
-
-  const goToPrevPage = () => {
-    setPageNumber((prev) => Math.max(prev - 1, 1))
-  }
-
-  const goToNextPage = () => {
-    setPageNumber((prev) => Math.min(prev + 1, numPages))
-  }
-
-  // 🟢 스크롤 이벤트 핸들러 useEffect 추가
-  useEffect(() => {
-    const handleWheel = (event) => {
-      if (!file || isScrolling.current) return
-
-      // 스크롤 중복 실행 방지
-      isScrolling.current = true
-      
-      if (event.deltaY < 0) { // 위로 스크롤
-        goToPrevPage()
-      } else { // 아래로 스크롤
-        goToNextPage()
-      }
-
-      // 0.5초 후에 다시 스크롤 가능하도록 설정
-      setTimeout(() => {
-        isScrolling.current = false
-      }, 500)
-    }
-
-    const pdfElement = pdfContentRef.current
-    if (pdfElement) {
-      pdfElement.addEventListener('wheel', handleWheel)
-    }
-
-    return () => {
-      if (pdfElement) {
-        pdfElement.removeEventListener('wheel', handleWheel)
-      }
-    }
-  }, [file, numPages, pageNumber]) // 의존성 배열에 상태 추가
 
   return (
     <div className="pdf-viewer">
@@ -86,37 +41,25 @@ function PDFViewer() {
         </label>
       </div>
       
-      {/* 🟢 ref를 div에 연결합니다 */}
-      <div className="pdf-content" ref={pdfContentRef}>
+      <div className="pdf-content">
         {file ? (
-          <>
-            <Document
-              file={file}
-              onLoadSuccess={onDocumentLoadSuccess}
-              className="pdf-document"
-            >
+          <Document
+            file={file}
+            onLoadSuccess={onDocumentLoadSuccess}
+            className="pdf-document"
+          >
+            {/* 🟢 모든 페이지를 한 번에 렌더링하도록 수정 */}
+            {Array.from(new Array(numPages), (el, index) => (
               <Page
-                pageNumber={pageNumber}
+                key={`page_${index + 1}`}
+                pageNumber={index + 1}
                 renderTextLayer={true}
                 renderAnnotationLayer={true}
                 width={Math.min(window.innerWidth * 0.7 - 60, 800)}
+                className="pdf-page" 
               />
-            </Document>
-            
-            {numPages && (
-              <div className="pdf-controls">
-                <button onClick={goToPrevPage} disabled={pageNumber <= 1}>
-                  이전
-                </button>
-                <span className="page-info">
-                  {pageNumber} / {numPages}
-                </span>
-                <button onClick={goToNextPage} disabled={pageNumber >= numPages}>
-                  다음
-                </button>
-              </div>
-            )}
-          </>
+            ))}
+          </Document>
         ) : (
           <div className="pdf-placeholder">
             <p>PDF 파일을 업로드해주세요</p>
