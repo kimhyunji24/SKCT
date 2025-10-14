@@ -40,15 +40,6 @@ function Timer({ totalMinutes }) {
         <span className="current-time">{formatTime(seconds)}</span>
         <span className="total-time">/ {totalMinutes}분</span>
       </div>
-      <div className="timer-info">
-        <small>(국정배시험소ㄷ)</small>
-      </div>
-      <div className="timer-controls">
-        <button onClick={handleStartStop} className={isRunning ? 'stop-btn' : 'start-btn'}>
-          {isRunning ? '정지' : '시작'}
-        </button>
-        <button onClick={handleReset} className="reset-btn">초기화</button>
-      </div>
     </div>
   )
 }
