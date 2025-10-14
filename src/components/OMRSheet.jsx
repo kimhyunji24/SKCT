@@ -12,40 +12,30 @@ function OMRSheet() {
 
   const handleSelect = (questionNum, choice) => {
     setAnswers(prev => {
-      const currentAnswer = prev[questionNum]
-      // 이미 선택된 답안을 다시 클릭하면 취소
-      if (currentAnswer === choice) {
+      if (prev[questionNum] === choice) {
         const newAnswers = { ...prev }
         delete newAnswers[questionNum]
         return newAnswers
       }
-      // 새로운 답안 선택
-      return {
-        ...prev,
-        [questionNum]: choice
-      }
+      return { ...prev, [questionNum]: choice }
     })
-    setScore(null) // 답안 변경 시 점수 초기화
+    setScore(null)
   }
 
+  // --- (다른 함수들은 그대로 유지) ---
   const handleGrade = () => {
     if (!correctAnswers.trim()) {
       alert('정답을 입력해주세요!')
       return
     }
-
-    // 정답 파싱 (예: "1,2,3,4,5,..." 또는 "1 2 3 4 5...")
     const correctArray = correctAnswers
       .split(/[,\s]+/)
       .map(a => parseInt(a.trim()))
       .filter(a => !isNaN(a) && a >= 1 && a <= 5)
-
     if (correctArray.length === 0) {
       alert('올바른 정답 형식이 아닙니다. 예: 1,2,3,4,5 또는 1 2 3 4 5')
       return
     }
-
-    // 채점
     let correct = 0
     correctArray.forEach((correctChoice, index) => {
       const questionNum = index + 1
@@ -53,7 +43,6 @@ function OMRSheet() {
         correct++
       }
     })
-
     setScore({
       correct,
       total: correctArray.length,
@@ -73,11 +62,22 @@ function OMRSheet() {
     setScore(null)
   }
 
-  const handleAnswerInput = (e) => {
-    const value = e.target.value
-    // 숫자, 쉼표, 공백만 허용
-    const filteredValue = value.replace(/[^0-9,\s]/g, '')
-    setCorrectAnswers(filteredValue)
+  // 🟢 추가된 함수: 이벤트 전파를 막습니다.
+  const handleKeyDown = (event) => {
+    // 허용할 키: 숫자, 쉼표, 스페이스바, 백스페이스, 화살표 키 등
+    if (
+      !/^[0-9]$/.test(event.key) &&
+      event.key !== ',' &&
+      event.key !== ' ' &&
+      event.key !== 'Backspace' &&
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowRight'
+    ) {
+      // 그 외의 키(예: 연산자)는 입력을 막습니다.
+      event.preventDefault() 
+    }
+    // 계산기로 이벤트가 넘어가지 않도록 막습니다.
+    event.stopPropagation()
   }
 
   return (
@@ -106,26 +106,14 @@ function OMRSheet() {
             </p>
             <textarea
               value={correctAnswers}
-              onChange={handleAnswerInput}
+              onChange={(e) => setCorrectAnswers(e.target.value)}
               placeholder="1,2,3,4,5,1,2,3,4,5,..."
               className="answer-input"
               rows="6"
-              autoComplete="off"
-              spellCheck="false"
-              inputMode="numeric"
-              style={{ 
-                backgroundColor: 'white',
-                color: '#333',
-                border: '2px solid #ddd',
-                padding: '12px',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontFamily: 'Courier New, monospace',
-                width: '100%',
-                resize: 'vertical',
-                cursor: 'text'
-              }}
+              // 🟢 onKeyDown 핸들러를 추가합니다.
+              onKeyDown={handleKeyDown}
             />
+            {/* ... 이하 코드는 동일 ... */}
             <div className="grading-buttons">
               <button onClick={handleGrade} className="submit-grade-btn">
                 채점하기
@@ -161,6 +149,7 @@ function OMRSheet() {
           )}
         </div>
       ) : (
+        // ... 이하 OMR 답안지 부분은 동일 ...
         <div className="omr-content">
           <div className="omr-grid">
             {Array.from({ length: totalQuestions }, (_, i) => i + 1).map(num => (
@@ -193,4 +182,3 @@ function OMRSheet() {
 }
 
 export default OMRSheet
-
