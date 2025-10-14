@@ -46,11 +46,11 @@ function App() {
           <PDFViewer />
         </div>
         <div className="right-panel">
-          <div className="calculator-section">
-            <Calculator />
-          </div>
           <div className="notepad-section">
             <NotePad />
+          </div>
+          <div className="calculator-section">
+            <Calculator />
           </div>
         </div>
       </div>
