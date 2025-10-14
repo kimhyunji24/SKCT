@@ -46,6 +46,9 @@ function App() {
           <PDFViewer />
         </div>
         <div className="right-panel">
+          <div className="timer-section">
+            <Timer totalMinutes={24} />
+          </div>
           <div className="notepad-section">
             <NotePad />
           </div>

@@ -87,6 +87,9 @@
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
 }
 
 .upload-btn:hover {

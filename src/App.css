@@ -114,6 +114,16 @@
   min-width: 300px;
 }
 
+.timer-section {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  height: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
 
 .notepad-section {
   flex: 1;
