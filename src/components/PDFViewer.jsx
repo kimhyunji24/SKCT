@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -32,6 +32,25 @@ function PDFViewer() {
   const goToNextPage = () => {
     setPageNumber((prev) => Math.min(prev + 1, numPages))
   }
+
+  // 스크롤로 페이지 전환
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (e.deltaY > 0) {
+        // 아래로 스크롤 - 다음 페이지
+        goToNextPage()
+      } else if (e.deltaY < 0) {
+        // 위로 스크롤 - 이전 페이지
+        goToPrevPage()
+      }
+    }
+
+    const pdfContent = document.querySelector('.pdf-content')
+    if (pdfContent && file) {
+      pdfContent.addEventListener('wheel', handleWheel, { passive: false })
+      return () => pdfContent.removeEventListener('wheel', handleWheel)
+    }
+  }, [file, numPages, pageNumber])
 
   return (
     <div className="pdf-viewer">

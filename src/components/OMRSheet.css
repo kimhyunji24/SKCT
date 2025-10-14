@@ -94,19 +94,20 @@
 }
 
 .choice-btn {
-
-  padding: 10px;
+  padding: 4px;
   border: 2px solid #ddd;
   background-color: white;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 500;
   transition: all 0.2s;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
+  max-width: 100%;
 }
 .choice-btn:hover {
   border-color: #4a5568;
