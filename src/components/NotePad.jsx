@@ -62,6 +62,11 @@ function NotePad() {
   const clearText = () => {
     setText('')
   }
+  
+  // 🟢 추가된 함수: 이벤트 전파를 막습니다.
+  const handleKeyDown = (event) => {
+    event.stopPropagation()
+  }
 
   return (
     <div className="notepad">
@@ -92,6 +97,8 @@ function NotePad() {
             onChange={(e) => setText(e.target.value)}
             placeholder="메모를 입력하세요..."
             className="notepad-textarea"
+            // 🟢 onKeyDown 핸들러를 추가합니다.
+            onKeyDown={handleKeyDown} 
           />
         </div>
       ) : (
@@ -120,7 +127,12 @@ function NotePad() {
             </div>
             <button onClick={clearCanvas} className="clear-btn">전체 지우기</button>
           </div>
-          <div className="canvas-container">
+          {/* 🟢 그림판 컨테이너에도 onKeyDown 핸들러를 추가합니다. */}
+          <div 
+            className="canvas-container" 
+            onKeyDown={handleKeyDown} 
+            tabIndex="0" /* 키보드 포커스를 받을 수 있도록 설정 */
+          >
             <canvas
               ref={canvasRef}
               onMouseDown={startDrawing}
@@ -137,4 +149,3 @@ function NotePad() {
 }
 
 export default NotePad
-
