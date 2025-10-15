@@ -210,9 +210,9 @@
     padding: 10px;
   }
 
-  .pdf-controls {
-    gap: 10px;
-    padding: 8px 15px;
+  .pdf-controls {  
+    display: none;
+
   }
 
   .pdf-controls button {
