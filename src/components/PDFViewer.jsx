@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+// 파일: src/components/PDFViewer.jsx
+
+import React, { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -9,32 +11,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 function PDFViewer() {
   const [file, setFile] = useState(null)
   const [numPages, setNumPages] = useState(null)
-  const [scale, setScale] = useState(1.0) // PDF 크기 조정을 위한 스케일 상태
-  
-  // 🟢 키보드 단축키로 PDF 크기 조정
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Ctrl/Cmd + Plus/Minus 키 조합
-      if ((event.ctrlKey || event.metaKey) && event.key === '=') {
-        event.preventDefault()
-        setScale(prev => Math.min(prev + 0.1, 3.0)) // 최대 3배까지
-      } else if ((event.ctrlKey || event.metaKey) && event.key === '-') {
-        event.preventDefault()
-        setScale(prev => Math.max(prev - 0.1, 0.5)) // 최소 0.5배까지
-      } else if ((event.ctrlKey || event.metaKey) && event.key === '0') {
-        event.preventDefault()
-        setScale(1.0) // 원본 크기로 리셋
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadProgress, setLoadProgress] = useState(0)
 
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0]
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile)
+      setNumPages(null)
+      setIsLoading(true)
     } else {
       alert('PDF 파일만 업로드 가능합니다.')
     }
@@ -42,13 +27,24 @@ function PDFViewer() {
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
+    setIsLoading(false)
+  }
+
+  const onDocumentLoadProgress = ({ loaded, total }) => {
+    const progress = (loaded / total) * 100
+    setLoadProgress(Math.round(progress))
+  }
+  
+  const onDocumentLoadError = (error) => {
+    alert('PDF 파일을 불러오는 데 실패했습니다.')
+    console.error(error)
+    setIsLoading(false)
   }
 
   return (
     <div className="pdf-viewer">
       <div className="pdf-header">
         <h2>문제</h2>
-
         <input
           type="file"
           accept="application/pdf"
@@ -59,54 +55,38 @@ function PDFViewer() {
         <label htmlFor="pdf-upload" className="upload-btn">
           PDF 업로드
         </label>
-        
-        <div className="pdf-controls">
-          {file && (
-            <div className="zoom-controls">
-              <button onClick={() => setScale(prev => Math.max(prev - 0.1, 0.5))} className="zoom-btn">
-                -
-              </button>
-              <span className="zoom-level">{Math.round(scale * 100)}%</span>
-              <button onClick={() => setScale(prev => Math.min(prev + 0.1, 3.0))} className="zoom-btn">
-                +
-              </button>
-              <button onClick={() => setScale(1.0)} className="zoom-reset">
-                리셋
-              </button>
-            </div>
-          )}
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={onFileChange}
-            id="pdf-upload"
-            style={{ display: 'none' }}
-          />
-          <label htmlFor="pdf-upload" className="upload-btn">
-            {file ? 'PDF 변경' : 'PDF 업로드'}
-          </label>
-        </div>
       </div>
       
       <div className="pdf-content">
+        {isLoading && (
+          <div className="loading-overlay">
+            <div className="spinner"></div>
+            <p>PDF 파일을 불러오는 중입니다... {loadProgress}%</p>
+          </div>
+        )}
+
         {file ? (
-          <Document
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            className="pdf-document"
-          >
-             {/* 🟢 모든 페이지를 한 번에 렌더링하도록 수정 */}
-             {Array.from(new Array(numPages), (el, index) => (
-               <Page
-                 key={`page_${index + 1}`}
-                 pageNumber={index + 1}
-                 renderTextLayer={true}
-                 renderAnnotationLayer={true}
-                 width={Math.min(window.innerWidth * 0.7 - 60, 800) * scale}
-                 className="pdf-page" 
-               />
-             ))}
-          </Document>
+          // 🟢 className을 동적으로 부여하여 CSS로 가시성을 제어
+          <div className={`pdf-document-container ${isLoading ? 'loading' : 'loaded'}`}>
+            <Document
+              file={file}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadProgress={onDocumentLoadProgress}
+              onLoadError={onDocumentLoadError}
+              className="pdf-document"
+            >
+              {Array.from(new Array(numPages), (el, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  renderTextLayer={true}
+                  renderAnnotationLayer={true}
+                  width={Math.min(window.innerWidth * 0.7 - 60, 800)}
+                  className="pdf-page" 
+                />
+              ))}
+            </Document>
+          </div>
         ) : (
           <div className="pdf-placeholder">
             <p>PDF 파일을 업로드해주세요</p>
