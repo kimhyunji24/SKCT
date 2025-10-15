@@ -1,6 +1,6 @@
 // 파일: src/components/PDFViewer.jsx
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -11,15 +11,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 function PDFViewer() {
   const [file, setFile] = useState(null)
   const [numPages, setNumPages] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isRendering, setIsRendering] = useState(false)
   const [loadProgress, setLoadProgress] = useState(0)
 
+  const [renderedPagesCount, setRenderedPagesCount] = useState(0)
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0]
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile)
       setNumPages(null)
-      setIsLoading(true)
+      setIsRendering(true)
+      renderedPagesCount.current = 0
     } else {
       alert('PDF 파일만 업로드 가능합니다.')
     }
@@ -27,19 +29,36 @@ function PDFViewer() {
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
-    setIsLoading(false)
+    if (numPages === 0) {
+      setIsRendering(false);
+    }
+  }
+  
+  
+  // 🟢 렌더링된 페이지 카운터만 증가시키는 역할
+  const handlePageRenderSuccess = () => {
+    setRenderedPagesCount(prevCount => prevCount + 1);
   }
 
+  // 🟢 useEffect를 사용해 로딩 완료 시점 감지
+  useEffect(() => {
+    // numPages가 설정되었고, 모든 페이지가 렌더링되었는지 확인
+    if (numPages && renderedPagesCount === numPages) {
+      setIsRendering(false);
+    }
+  }, [renderedPagesCount, numPages]);
+
   const onDocumentLoadProgress = ({ loaded, total }) => {
-    const progress = (loaded / total) * 100
-    setLoadProgress(Math.round(progress))
+    const progress = Math.round((loaded / total) * 100)
+    setLoadProgress(progress)
   }
   
   const onDocumentLoadError = (error) => {
     alert('PDF 파일을 불러오는 데 실패했습니다.')
     console.error(error)
-    setIsLoading(false)
+    setIsRendering(false)
   }
+
 
   return (
     <div className="pdf-viewer">
@@ -58,16 +77,20 @@ function PDFViewer() {
       </div>
       
       <div className="pdf-content">
-        {isLoading && (
+        {isRendering && (
           <div className="loading-overlay">
             <div className="spinner"></div>
-            <p>PDF 파일을 불러오는 중입니다... {loadProgress}%</p>
+            {/* 🟢 이 부분만 수정합니다 🟢 */}
+            {loadProgress < 100 ? (
+              <p>PDF 파일을 불러오는 중입니다... {loadProgress}%</p>
+            ) : (
+              <p>페이지를 표시하는 중입니다...</p>
+            )}
           </div>
         )}
 
-        {file ? (
-          // 🟢 className을 동적으로 부여하여 CSS로 가시성을 제어
-          <div className={`pdf-document-container ${isLoading ? 'loading' : 'loaded'}`}>
+        {file && (
+          <div className={`pdf-document-container ${isRendering ? 'loading' : 'loaded'}`}>
             <Document
               file={file}
               onLoadSuccess={onDocumentLoadSuccess}
@@ -82,15 +105,18 @@ function PDFViewer() {
                   renderTextLayer={true}
                   renderAnnotationLayer={true}
                   width={Math.min(window.innerWidth * 0.7 - 60, 800)}
-                  className="pdf-page" 
+                  className="pdf-page"
+                  onRenderSuccess={handlePageRenderSuccess}
                 />
               ))}
             </Document>
           </div>
-        ) : (
-          <div className="pdf-placeholder">
-            <p>PDF 파일을 업로드해주세요</p>
-          </div>
+        )}
+        
+        {!file && !isRendering && (
+           <div className="pdf-placeholder">
+             <p>PDF 파일을 업로드해주세요</p>
+           </div>
         )}
       </div>
     </div>
