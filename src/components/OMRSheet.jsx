@@ -1,4 +1,4 @@
-import React, { useState } from 'react' // useEffect 추가
+import React, { useState, useEffect } from 'react'
 import './OMRSheet.css'
 
 // 🟢 props로 onGradingToggle 함수를 받도록 수정
