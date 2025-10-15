@@ -1,6 +1,6 @@
 // 파일: src/components/PDFViewer.jsx
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -13,15 +13,20 @@ function PDFViewer() {
   const [numPages, setNumPages] = useState(null)
   const [isRendering, setIsRendering] = useState(false)
   const [loadProgress, setLoadProgress] = useState(0)
-
   const [renderedPagesCount, setRenderedPagesCount] = useState(0)
+
+  // 🟢 줌 레벨(scale)을 관리하는 상태 추가
+  const [scale, setScale] = useState(1.0)
+
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0]
-    if (selectedFile && selectedFile.type === 'application/pdf') {
+    if (selectedFile) {
       setFile(selectedFile)
       setNumPages(null)
+      setScale(1.0) // 새 파일 로드 시 줌 레벨 초기화
       setIsRendering(true)
-      renderedPagesCount.current = 0
+      setRenderedPagesCount(0)
+      setLoadProgress(0)
     } else {
       alert('PDF 파일만 업로드 가능합니다.')
     }
@@ -29,20 +34,14 @@ function PDFViewer() {
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages)
-    if (numPages === 0) {
-      setIsRendering(false);
-    }
+    if (numPages === 0) setIsRendering(false)
   }
   
-  
-  // 🟢 렌더링된 페이지 카운터만 증가시키는 역할
   const handlePageRenderSuccess = () => {
     setRenderedPagesCount(prevCount => prevCount + 1);
   }
 
-  // 🟢 useEffect를 사용해 로딩 완료 시점 감지
   useEffect(() => {
-    // numPages가 설정되었고, 모든 페이지가 렌더링되었는지 확인
     if (numPages && renderedPagesCount === numPages) {
       setIsRendering(false);
     }
@@ -58,12 +57,33 @@ function PDFViewer() {
     console.error(error)
     setIsRendering(false)
   }
-
+  
+  // 🟢 줌 처리 함수들 추가
+  const handleZoom = (newScale) => {
+    if (!file) return;
+    setIsRendering(true); // 렌더링 시작
+    setRenderedPagesCount(0); // 렌더링 카운터 초기화
+    setScale(newScale);
+  }
 
   return (
     <div className="pdf-viewer">
       <div className="pdf-header">
         <h2>문제</h2>
+        {/* 🟢 줌 컨트롤 UI 추가 */}
+        {file && (
+          <div className="pdf-controls">
+            <div className="zoom-controls">
+              <button className="zoom-btn" onClick={() => handleZoom(scale - 0.1)} disabled={scale <= 0.5}>-</button>
+              <span className="zoom-level">{Math.round(scale * 100)}%</span>
+              <button className="zoom-btn" onClick={() => handleZoom(scale + 0.1)} disabled={scale >= 2.0}>+</button>
+              <button className="zoom-reset" onClick={() => handleZoom(1.0)}>초기화</button>
+            </div>
+          </div>
+        )}
+        <label htmlFor="pdf-upload" className="upload-btn">
+          PDF 업로드
+        </label>
         <input
           type="file"
           accept="application/pdf"
@@ -71,20 +91,16 @@ function PDFViewer() {
           id="pdf-upload"
           style={{ display: 'none' }}
         />
-        <label htmlFor="pdf-upload" className="upload-btn">
-          PDF 업로드
-        </label>
       </div>
       
       <div className="pdf-content">
         {isRendering && (
           <div className="loading-overlay">
             <div className="spinner"></div>
-            {/* 🟢 이 부분만 수정합니다 🟢 */}
             {loadProgress < 100 ? (
               <p>PDF 파일을 불러오는 중입니다... {loadProgress}%</p>
             ) : (
-              <p>페이지를 표시하는 중입니다...</p>
+              <p>페이지를 표시하는 중입니다... ({renderedPagesCount}/{numPages})</p>
             )}
           </div>
         )}
@@ -104,7 +120,8 @@ function PDFViewer() {
                   pageNumber={index + 1}
                   renderTextLayer={true}
                   renderAnnotationLayer={true}
-                  width={Math.min(window.innerWidth * 0.7 - 60, 800)}
+                  // 🟢 width 대신 scale prop 사용
+                  scale={scale}
                   className="pdf-page"
                   onRenderSuccess={handlePageRenderSuccess}
                 />
