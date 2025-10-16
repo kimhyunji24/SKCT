@@ -124,8 +124,9 @@
   background-color: white;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 16px;
-  height: 100px;
+  padding: 12px;
+  min-height: 100px;
+  height: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
 }

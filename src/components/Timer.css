@@ -49,23 +49,25 @@
 .custom-time-inputs {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
+  width: 100%;
 }
 
 .custom-input-group {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  justify-content: center;
 }
 
 .custom-input {
-  width: 50px;
-  padding: 4px 6px;
+  width: 40px;
+  padding: 3px 4px;
   border: 1px solid #e2e8f0;
   border-radius: 4px;
   background-color: white;
-  font-size: 12px;
+  font-size: 11px;
   color: #4a5568;
   text-align: center;
 }
@@ -76,23 +78,23 @@
 }
 
 .input-label {
-  font-size: 12px;
+  font-size: 10px;
   color: #666;
-  min-width: 15px;
+  min-width: 12px;
 }
 
 .custom-buttons {
   display: flex;
-  gap: 5px;
-  margin-top: 5px;
+  gap: 4px;
+  margin-top: 4px;
 }
 
 .set-btn, .cancel-btn {
-  padding: 4px 8px;
+  padding: 3px 6px;
   border: 1px solid #e2e8f0;
   border-radius: 4px;
   background-color: white;
-  font-size: 11px;
+  font-size: 10px;
   color: #4a5568;
   cursor: pointer;
   transition: background-color 0.2s;

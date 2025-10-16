@@ -89,8 +89,6 @@ function Timer() {
                 placeholder="분"
               />
               <span className="input-label">분</span>
-            </div>
-            <div className="custom-input-group">
               <input
                 type="number"
                 min="0"
