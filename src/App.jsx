@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react'
 import Tutorial from './components/Tutorial'
 import OMRSheet from './components/OMRSheet'
 import PDFViewer from './components/PDFViewer'
+import Timer from './components/Timer'
 import Calculator from './components/Calculator'
 import NotePad from './components/NotePad'
 import './App.css'
@@ -52,6 +53,9 @@ function App() {
           <PDFViewer />
         </div>
         <div className="right-panel">
+          <div className="timer-section">
+            <Timer />
+          </div>
           <div className="notepad-section">
             <NotePad />
           </div>
