@@ -55,7 +55,7 @@ function Timer() {
   const currentMinutes = Math.floor(seconds / 60)
 
   return (
-    <div className="timer">
+    <div className="timer" onKeyDown={(e) => e.stopPropagation()}>
       <div className="timer-controls">
         {!isCustomMode ? (
           <>
@@ -85,6 +85,8 @@ function Timer() {
                 max="999"
                 value={customMinutes}
                 onChange={(e) => setCustomMinutes(parseInt(e.target.value) || 0)}
+                onKeyDown={(e) => e.stopPropagation()}
+                onKeyUp={(e) => e.stopPropagation()}
                 className="custom-input"
                 placeholder="분"
               />
@@ -95,6 +97,8 @@ function Timer() {
                 max="59"
                 value={customSeconds}
                 onChange={(e) => setCustomSeconds(parseInt(e.target.value) || 0)}
+                onKeyDown={(e) => e.stopPropagation()}
+                onKeyUp={(e) => e.stopPropagation()}
                 className="custom-input"
                 placeholder="초"
               />
