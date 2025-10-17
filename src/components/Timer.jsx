@@ -115,6 +115,20 @@ function Timer() {
         <span className="current-time">{formatTime(seconds)}</span>
         <span className="total-time">/ {getTotalTimeDisplay()}</span>
       </div>
+      <div className="timer-buttons">
+        <button 
+          onClick={handleStartStop}
+          className={`timer-btn ${isRunning ? 'stop-btn' : 'start-btn'}`}
+        >
+          {isRunning ? '정지' : '시작'}
+        </button>
+        <button 
+          onClick={handleReset}
+          className="timer-btn reset-btn"
+        >
+          리셋
+        </button>
+      </div>
     </div>
   )
 }
