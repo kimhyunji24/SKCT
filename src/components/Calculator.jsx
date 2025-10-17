@@ -156,9 +156,13 @@ function Calculator() {
         <button className="btn-number" onClick={() => handleNumber('6')}>6</button>
         <button className="btn-operator" onClick={() => handleOperator('+')}>+</button>
         
+        <button className="btn-number" onClick={() => handleNumber('1')}>1</button>
+        <button className="btn-number" onClick={() => handleNumber('2')}>2</button>
+        <button className="btn-number" onClick={() => handleNumber('3')}>3</button>
+        <button className="btn-operator" onClick={handleEquals}>=</button>
+        
         <button className="btn-number btn-zero" onClick={() => handleNumber('0')}>0</button>
         <button className="btn-number" onClick={handleDecimal}>.</button>
-        <button className="btn-operator" onClick={handleEquals}>=</button>
       </div>
     </div>
   )
