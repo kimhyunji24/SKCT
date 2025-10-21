@@ -1,0 +1,127 @@
+.layout-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  max-width: 400px;
+  background: linear-gradient(135deg, #d8c9b6 );
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: rgb(255, 255, 255);
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-notification.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.notification-content {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.notification-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-text h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(255, 254, 254);
+}
+
+.notification-text p {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(90, 82, 82, 0.9);
+}
+
+.notification-text p:last-child {
+  margin-bottom: 0;
+}
+
+.notification-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.dont-show-btn {
+  background: rgba(255, 255, 255, 0.069);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgb(51, 50, 50);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dont-show-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .layout-notification {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .notification-content {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .notification-text h3 {
+    font-size: 15px;
+  }
+
+  .notification-text p {
+    font-size: 12px;
+  }
+
+
+  .dont-show-btn {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-content {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .notification-icon {
+    font-size: 20px;
+  }
+
+  .notification-text h3 {
+    font-size: 14px;
+  }
+
+  .notification-text p {
+    font-size: 11px;
+  }
+}

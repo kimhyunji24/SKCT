@@ -7,6 +7,7 @@ function OMRSheet({ onGradingToggle }) {
   const [correctAnswers, setCorrectAnswers] = useState('')
   const [score, setScore] = useState(null)
   const [showGrading, setShowGrading] = useState(false)
+  const [wrongQuestions, setWrongQuestions] = useState([])
 
   // 🟢 showGrading 상태가 바뀔 때마다 부모에게 알리는 useEffect 추가
   useEffect(() => {
@@ -44,12 +45,20 @@ function OMRSheet({ onGradingToggle }) {
       return
     }
     let correct = 0
+    const wrongList = []
     correctArray.forEach((correctChoice, index) => {
       const questionNum = index + 1
       if (answers[questionNum] === correctChoice) {
         correct++
+      } else {
+        wrongList.push({
+          questionNum,
+          userAnswer: answers[questionNum] || '미답',
+          correctAnswer: correctChoice
+        })
       }
     })
+    setWrongQuestions(wrongList)
     setScore({
       correct,
       total: correctArray.length,
@@ -61,12 +70,14 @@ function OMRSheet({ onGradingToggle }) {
     if (window.confirm('모든 답안을 지우시겠습니까?')) {
       setAnswers({})
       setScore(null)
+      setWrongQuestions([])
     }
   }
 
   const handleClearGrading = () => {
     setCorrectAnswers('')
     setScore(null)
+    setWrongQuestions([])
   }
 
   // 🟢 추가된 함수: 이벤트 전파를 막습니다.
@@ -152,6 +163,26 @@ function OMRSheet({ onGradingToggle }) {
                   <span className="score-value percentage">{score.percentage}점</span>
                 </div>
               </div>
+              
+              {wrongQuestions.length > 0 && (
+                <div className="wrong-questions-detail">
+                  <h4>틀린 문제 상세 ({wrongQuestions.length}개)</h4>
+                  <div className="wrong-questions-list">
+                    {wrongQuestions.map((wrong, index) => (
+                      <div key={index} className="wrong-question-item">
+                        <div className="question-info">
+                          <span className="question-number">{wrong.questionNum}번</span>
+                          <div className="answer-comparison">
+                            <span className="user-answer">내 답: {wrong.userAnswer}</span>
+                            <span className="arrow">→</span>
+                            <span className="correct-answer">정답: {wrong.correctAnswer}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
