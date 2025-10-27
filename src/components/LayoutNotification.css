@@ -4,7 +4,7 @@
   right: 20px;
   z-index: 2000;
   max-width: 400px;
-  background: linear-gradient(135deg, #d8c9b6 );
+  background: linear-gradient(135deg, #3d3120 );
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   color: rgb(255, 255, 255);
@@ -46,7 +46,7 @@
   margin: 0 0 6px 0;
   font-size: 13px;
   line-height: 1.4;
-  color: rgba(90, 82, 82, 0.9);
+  color: rgba(227, 227, 227, 0.9);
 }
 
 .notification-text p:last-child {

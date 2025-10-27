@@ -34,9 +34,9 @@ function LayoutNotification() {
       <div className="notification-content">
         <div className="notification-icon">🎉</div>
         <div className="notification-text">
-          <h3>이렇게 바뀌었습니다!</h3>
-          <p>실제 SKCT처럼 OMR 답안지가 PDF 뷰어 오른쪽으로 이동했습니다.</p>
-          <p>채점 후 무슨 문제가 틀렸는지, 내가 적은 정답과 답을 확인할 수 있어요!</p>
+          <h3>Changed</h3>
+          <p>인터넷 실모에서도 사용할 수 있게 </p>
+          <p>창을 줄이면 pdf viewer와 omr이 사라져요</p>
         </div>
         <div className="notification-actions">
           <button 
