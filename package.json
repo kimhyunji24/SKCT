@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.102.1",
+    "@tosspayments/payment-widget-sdk": "^0.12.1",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-pdf": "^7.5.1",
-    "pdfjs-dist": "^3.11.174"
+    "react-router-dom": "^7.14.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -21,4 +25,3 @@
     "vite": "^5.0.8"
   }
 }
-

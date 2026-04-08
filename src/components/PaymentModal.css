@@ -1,0 +1,148 @@
+.payment-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.payment-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  width: 480px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.payment-modal h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.payment-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #718096;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.payment-close-btn:hover:not(:disabled) {
+  color: #1a202c;
+}
+
+.payment-file-info {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.payment-file-name {
+  display: block;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 14px;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.payment-page-count {
+  display: block;
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+.payment-notice {
+  font-size: 13px;
+  color: #e53e3e;
+  margin: 8px 0;
+}
+
+.payment-price {
+  font-size: 16px;
+  color: #2d3748;
+  margin-top: 8px;
+}
+
+.payment-price strong {
+  color: #2c3e50;
+  font-size: 20px;
+}
+
+.payment-error {
+  color: #e53e3e;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.payment-loading {
+  text-align: center;
+  color: #718096;
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.payment-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.payment-cancel-btn {
+  flex: 1;
+  padding: 12px;
+  background: #f7fafc;
+  color: #4a5568;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.payment-cancel-btn:hover:not(:disabled) {
+  background: #edf2f7;
+}
+
+.payment-submit-btn {
+  flex: 2;
+  padding: 12px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.payment-submit-btn:hover:not(:disabled) {
+  background: #1a252f;
+}
+
+.payment-submit-btn:disabled,
+.payment-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
