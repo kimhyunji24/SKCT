@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './OMRSheet.css'
 
 // 🟢 props로 onGradingToggle 함수를 받도록 수정
-function OMRSheet({ onGradingToggle }) {
+function OMRSheet({ onGradingToggle, onHide }) {
   const [answers, setAnswers] = useState({})
   const [correctAnswers, setCorrectAnswers] = useState('')
   const [score, setScore] = useState(null)
@@ -101,13 +101,20 @@ function OMRSheet({ onGradingToggle }) {
   return (
     <div className="omr-sheet">
       <div className="omr-header">
-        <h2>OMR 답안지</h2>
+        <div className="omr-header-top">
+          <h2>OMR 답안지</h2>
+          {onHide && (
+            <button className="omr-hide-btn" onClick={onHide}>
+              숨기기 ▶
+            </button>
+          )}
+        </div>
         <div className="omr-actions">
           <button onClick={() => setShowGrading(!showGrading)} className="grade-btn">
-            {showGrading ? '답안지 보기' : '채점하기'}
+            {showGrading ? '답안지 보기' : '채점'}
           </button>
           <button onClick={handleClear} className="clear-all-btn">
-            답안 초기화
+            Reset
           </button>
         </div>
       </div>
@@ -131,13 +138,13 @@ function OMRSheet({ onGradingToggle }) {
               // 🟢 onKeyDown 핸들러를 추가합니다.
               onKeyDown={handleKeyDown}
             />
-            {/* ... 이하 코드는 동일 ... */}
+
             <div className="grading-buttons">
               <button onClick={handleGrade} className="submit-grade-btn">
-                채점하기
+                채점
               </button>
               <button onClick={handleClearGrading} className="clear-grade-btn">
-                입력 지우기
+                Reset
               </button>
             </div>
           </div>

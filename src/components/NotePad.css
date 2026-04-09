@@ -18,24 +18,24 @@
 .mode-toggle button {
   flex: 1;
   padding: 8px 16px;
-  border: 2px solid #ddd;
+  border: 0.5px solid #1a1a1a;
   background-color: white;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s;
+  color: #1a1a1a;
 }
 
 .mode-toggle button:hover {
-  border-color: #4a5568;
-  color: #4a5568;
+  background-color: #f0f2f5;
 }
 
 .mode-toggle button.active {
-  background-color: #2d3748;
+  background-color: #1a1a1a;
   color: white;
-  border-color: #2d3748;
+  border-color: #1a1a1a;
 }
 
 .notepad-content,
@@ -78,18 +78,19 @@
 
 .clear-btn {
   padding: 6px 12px;
-  background-color: #718096;
-  color: white;
-  border: none;
+  background-color: white;
+  color: #1a1a1a;
+  border: 0.5px solid #1a1a1a;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   margin-left: auto;
 }
 
 .clear-btn:hover {
-  background-color: #4a5568;
+  background-color: #1a1a1a;
+  color: white;
 }
 
 .notepad-textarea {

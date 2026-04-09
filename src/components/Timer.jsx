@@ -1,5 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Timer.css'
+
+function playAlarmSound() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext
+  if (!AudioCtx) return
+  const ctx = new AudioCtx()
+  const beep = (startTime, freq, duration) => {
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    osc.type = 'sine'
+    osc.frequency.value = freq
+    gain.gain.setValueAtTime(0.5, startTime)
+    gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
+    osc.start(startTime)
+    osc.stop(startTime + duration)
+  }
+  const now = ctx.currentTime
+  beep(now, 880, 0.3)
+  beep(now + 0.4, 1100, 0.3)
+  beep(now + 0.8, 880, 0.5)
+}
 
 function Timer() {
   const [totalMinutes, setTotalMinutes] = useState(100)
@@ -8,18 +30,31 @@ function Timer() {
   const [isCustomMode, setIsCustomMode] = useState(false)
   const [seconds, setSeconds] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
+  const [alarmEnabled, setAlarmEnabled] = useState(true)
+  const [alarmFired, setAlarmFired] = useState(false)
+  const alarmFiredRef = useRef(false)
 
   useEffect(() => {
     let interval = null
     if (isRunning) {
       interval = setInterval(() => {
-        setSeconds((seconds) => seconds + 1)
+        setSeconds((s) => {
+          const next = s + 1
+          // 알람: 목표 시간 도달 시
+          if (alarmEnabled && !alarmFiredRef.current && next === totalMinutes * 60) {
+            alarmFiredRef.current = true
+            setAlarmFired(true)
+            playAlarmSound()
+            setTimeout(() => setAlarmFired(false), 3000)
+          }
+          return next
+        })
       }, 1000)
     } else if (!isRunning && seconds !== 0) {
       clearInterval(interval)
     }
     return () => clearInterval(interval)
-  }, [isRunning, seconds])
+  }, [isRunning, seconds, alarmEnabled, totalMinutes])
 
   const formatTime = (totalSeconds) => {
     const mins = Math.floor(totalSeconds / 60)
@@ -34,6 +69,8 @@ function Timer() {
   const handleReset = () => {
     setIsRunning(false)
     setSeconds(0)
+    alarmFiredRef.current = false
+    setAlarmFired(false)
   }
 
   const handleCustomTimeSet = () => {
@@ -41,6 +78,8 @@ function Timer() {
     if (totalCustomSeconds > 0) {
       setTotalMinutes(Math.floor(totalCustomSeconds / 60))
       setSeconds(0)
+      alarmFiredRef.current = false
+      setAlarmFired(false)
       setIsCustomMode(false)
     }
   }
@@ -116,19 +155,32 @@ function Timer() {
         <span className="total-time">/ {getTotalTimeDisplay()}</span>
       </div>
       <div className="timer-buttons">
-        <button 
+        <button
           onClick={handleStartStop}
           className={`timer-btn ${isRunning ? 'stop-btn' : 'start-btn'}`}
         >
           {isRunning ? '정지' : '시작'}
         </button>
-        <button 
+        <button
           onClick={handleReset}
           className="timer-btn reset-btn"
         >
           리셋
         </button>
       </div>
+      <label className="alarm-toggle">
+        <input
+          type="checkbox"
+          checked={alarmEnabled}
+          onChange={(e) => setAlarmEnabled(e.target.checked)}
+        />
+        <span>소리 알람</span>
+      </label>
+      {alarmFired && (
+        <div className="alarm-banner">
+          시간 종료!
+        </div>
+      )}
     </div>
   )
 }

@@ -1,16 +1,15 @@
 .timer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
   height: 100%;
-  text-align: center;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .timer-controls {
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 .time-select {
@@ -32,8 +31,9 @@
   display: flex;
   align-items: baseline;
   gap: 5px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .current-time {
@@ -111,13 +111,13 @@
 /* 타이머 버튼 스타일 */
 .timer-buttons {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 0;
 }
 
 .timer-btn {
   padding: 6px 12px;
-  border: 1px solid #e2e8f0;
+  border: 0.5px solid #1a1a1a;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
@@ -127,36 +127,62 @@
 }
 
 .start-btn {
-  background-color: #48bb78;
+  background-color: #1a1a1a;
   color: white;
-  border-color: #48bb78;
 }
 
 .start-btn:hover {
-  background-color: #38a169;
-  border-color: #38a169;
+  background-color: #333;
 }
 
 .stop-btn {
-  background-color: #f56565;
-  color: white;
-  border-color: #f56565;
+  background-color: white;
+  color: #c53030;
+  border-color: #c53030;
 }
 
 .stop-btn:hover {
-  background-color: #e53e3e;
-  border-color: #e53e3e;
+  background-color: #c53030;
+  color: white;
 }
 
 .reset-btn {
-  background-color: #718096;
-  color: white;
-  border-color: #718096;
+  background-color: white;
+  color: #1a1a1a;
 }
 
 .reset-btn:hover {
-  background-color: #4a5568;
-  border-color: #4a5568;
+  background-color: #f0f2f5;
+}
+
+.alarm-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+}
+
+.alarm-toggle input {
+  cursor: pointer;
+  accent-color: #48bb78;
+}
+
+.alarm-banner {
+  background-color: #f56565;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  animation: pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0.7; transform: scale(1.05); }
 }
 
 /* 반응형 */
