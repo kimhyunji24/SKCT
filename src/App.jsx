@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import Tutorial from './components/Tutorial'
 import OMRSheet from './components/OMRSheet'
 import PDFViewer from './components/PDFViewer'
@@ -131,11 +132,14 @@ function MainLayout() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />} />
-      <Route path="/payment/success" element={<PaymentSuccess />} />
-      <Route path="/payment/fail" element={<PaymentFail />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<MainLayout />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/fail" element={<PaymentFail />} />
+      </Routes>
+      <Analytics />
+    </>
   )
 }
 
