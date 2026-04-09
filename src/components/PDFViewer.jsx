@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import { useAuth } from '../contexts/AuthContext'
-import { supabase } from '../lib/supabaseClient'
 import { getPdfPageCount } from '../lib/pdfUtils'
-import AuthModal from './AuthModal'
-import PaymentModal from './PaymentModal'
 import './PDFViewer.css'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
@@ -14,8 +10,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const FREE_PAGE_LIMIT = 100
 
 function PDFViewer({ onHide, postPaymentData }) {
-  const { user } = useAuth()
-
   const [file, setFile] = useState(null)
   const [numPages, setNumPages] = useState(null)
   const [isRendering, setIsRendering] = useState(false)
@@ -23,13 +17,6 @@ function PDFViewer({ onHide, postPaymentData }) {
   const [renderedPagesCount, setRenderedPagesCount] = useState(0)
   const [scale, setScale] = useState(1.0)
 
-  // 인증/결제 모달 상태
-  const [showAuth, setShowAuth] = useState(false)
-  const [showPayment, setShowPayment] = useState(false)
-  const [pendingFile, setPendingFile] = useState(null)
-  const [pendingPageCount, setPendingPageCount] = useState(0)
-
-  // 결제 완료 후 스토리지 URL로 PDF 로드
   useEffect(() => {
     if (postPaymentData?.storageUrl && postPaymentData?.fileName) {
       loadFromStorageUrl(postPaymentData.storageUrl, postPaymentData.fileName)
@@ -48,7 +35,7 @@ function PDFViewer({ onHide, postPaymentData }) {
       setScale(1.0)
       setRenderedPagesCount(0)
     } catch {
-      alert('결제 후 파일을 불러오는데 실패했습니다.')
+      alert('파일을 불러오는데 실패했습니다.')
       setIsRendering(false)
     }
   }
@@ -57,56 +44,18 @@ function PDFViewer({ onHide, postPaymentData }) {
     const selectedFile = event.target.files[0]
     event.target.value = ''
     if (!selectedFile) return
-
-    if (!user) {
-      setPendingFile(selectedFile)
-      setShowAuth(true)
-      return
-    }
-
-    await processFile(selectedFile, user)
+    await processFile(selectedFile)
   }
 
-  const handleAuthSuccess = async (loggedInUser) => {
-    setShowAuth(false)
-    if (pendingFile) {
-      const fileToProcess = pendingFile
-      setPendingFile(null)
-      await processFile(fileToProcess, loggedInUser || user)
-    }
-  }
-
-  const processFile = async (selectedFile, currentUser) => {
+  const processFile = async (selectedFile) => {
     setIsRendering(true)
     try {
       const pageCount = await getPdfPageCount(selectedFile)
-
       if (pageCount >= FREE_PAGE_LIMIT) {
-        setPendingFile(selectedFile)
-        setPendingPageCount(pageCount)
+        alert(`100페이지 이상의 PDF(${pageCount}p)는 현재 지원되지 않습니다.`)
         setIsRendering(false)
-        setShowPayment(true)
         return
       }
-
-      // 무료 업로드: Supabase Storage에 저장 + DB 기록
-      if (currentUser) {
-        const path = `${currentUser.id}/${Date.now()}_${selectedFile.name}`
-        const { error: uploadErr } = await supabase.storage
-          .from('pdf-files')
-          .upload(path, selectedFile)
-        if (!uploadErr) {
-          await supabase.from('pdf_uploads').insert({
-            user_id: currentUser.id,
-            file_name: selectedFile.name,
-            storage_path: path,
-            page_count: pageCount,
-            file_size: selectedFile.size,
-            is_paid: false,
-          })
-        }
-      }
-
       setFile(selectedFile)
       setNumPages(null)
       setScale(1.0)
@@ -151,21 +100,6 @@ function PDFViewer({ onHide, postPaymentData }) {
 
   return (
     <div className="pdf-viewer">
-      {showAuth && (
-        <AuthModal
-          onClose={() => { setShowAuth(false); setPendingFile(null) }}
-          onSuccess={handleAuthSuccess}
-        />
-      )}
-      {showPayment && pendingFile && (
-        <PaymentModal
-          file={pendingFile}
-          pageCount={pendingPageCount}
-          user={user}
-          onClose={() => { setShowPayment(false); setPendingFile(null) }}
-        />
-      )}
-
       <div className="pdf-header">
         <h2>문제</h2>
         <button className="pdf-hide-btn" onClick={onHide} title="PDF 패널 숨기기">
@@ -232,11 +166,9 @@ function PDFViewer({ onHide, postPaymentData }) {
         {!file && !isRendering && (
           <div className="pdf-placeholder">
             <p>PDF 파일을 업로드해주세요</p>
-            {!user && (
-              <p style={{ fontSize: '13px', color: '#999', marginTop: '8px' }}>
-                로그인 후 업로드 기록이 저장됩니다
-              </p>
-            )}
+            <p style={{ fontSize: '13px', color: '#999', marginTop: '8px' }}>
+              100페이지 이하 PDF를 지원합니다
+            </p>
           </div>
         )}
       </div>
